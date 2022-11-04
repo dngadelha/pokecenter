@@ -1,9 +1,16 @@
 <div class="row">
   <div class="col col-12 col-md-6">
     <h1 data-aos="fade-up" data-aos-delay="0">Capture <b>Pokémons</b> pelo seu navegador</h1>
-    <p data-aos="fade-up" data-aos-delay="100">Digite para buscar um pokemon e clique para capturá-lo.</p>
+    <p data-aos="fade-up" data-aos-delay="100" *ngIf="!showStartSection">Bem-vindo(a), <b>{{ userName }}</b>! Você pode começar sua jornada procurando por Pokémons.</p>
+    <p data-aos="fade-up" data-aos-delay="100" *ngIf="showStartSection">Informe seu nome abaixo para começar sua jornada!</p>
+    <div class="start-div" data-aos="fade-up" data-aos-delay="200" *ngIf="showStartSection">
+      <div class="start-input">
+        <input type="text" placeholder="Digite seu nome aqui..." [(ngModel)]="userNameInput" (ngModelChange)="setUserNameInput($event)" (keydown)="onUserNameInputKeyDown($event)" />
+      </div>
+      <button type="button" (click)="start()" [disabled]="userNameInput.trim().length === 0">Começar</button>
+    </div>
   </div>
-  <div class="col col-12 col-md-6" data-aos="zoom-in-down" data-aos-delay="200">
-    <img class="header-img" src="assets/illustration.svg" alt="Pokémons" />
+  <div class="col col-12 col-md-6" data-aos="fade-up" data-aos-delay="200">
+    <img class="header-img" src="assets/illustration.svg" alt="Pokémons" (dragstart)="$event.preventDefault()" />
   </div>
 </div>

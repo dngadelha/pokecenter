@@ -1,5 +1,5 @@
 <div class="container container-lg">
-  <img class="logo" src="assets/logo.svg" alt="Pokecenter" />
+  <img class="logo" src="assets/logo.svg" alt="Pokecenter" (dragstart)="$event.preventDefault()" />
 
   <a [routerLink]="['/']" class="nav-link">Início</a>
   <a [routerLink]="['/pokedex']" class="nav-link">Pokédex</a>

@@ -1,9 +1,12 @@
+@import "variables";
+
 // Campo de busca
 :host .search {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
 }
 
 // Ícone do campo de busca
@@ -33,4 +36,17 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+// Card de lista de pokémons vazia
+:host .pokemons-list .empty-card {
+  text-align: center;
+  padding: 2rem;
+  background-color: transparent;
+  border: 1px solid $border-color;
+  box-shadow: none;
+}
+
+:host .pokemons-list .empty-card p {
+  opacity: 0.5;
 }

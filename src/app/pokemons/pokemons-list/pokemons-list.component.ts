@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as AOS from "aos";
+import { Pokemon } from "../shared/pokemon";
 
 import { PokemonService } from "../shared/pokemon.service";
 
@@ -17,6 +18,11 @@ export class PokemonsListComponent implements OnInit {
    * Valor do campo de busca.
    */
   search: string = "";
+
+  /**
+   * Lista de pokémons capturados.
+   */
+  pokemons: Pokemon[] = [];
 
   constructor(public pokemonService: PokemonService) {}
 

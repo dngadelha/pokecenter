@@ -1,11 +1,20 @@
 @import "variables";
+@import "utils";
 
 // Cabeçalho da página
 :host {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: max(60vh, 20rem);
+  flex-grow: 1;
+  padding: 0 1rem 0 1rem;
+  margin-bottom: 0;
+  transition: all 0.5s ease;
+}
+
+:host(.active) {
+  flex-grow: 0;
+  padding: 6rem 1rem 3rem 1rem;
   margin-bottom: 5rem;
 }
 
@@ -32,6 +41,8 @@
 
 // Subtítulo do cabeçalho da página
 :host p {
+  font-size: 1.15rem;
+  line-height: 1.6;
   opacity: 0.9;
 }
 
@@ -66,4 +77,98 @@
     transform: none;
     padding: 2rem;
   }
+}
+
+// Seção de iniciar jornada
+:host .start-div {
+  --input-border-width: 2px;
+  --input-border-radius: 0.5rem;
+  display: flex;
+  margin-top: 1rem;
+}
+
+// Campo do nome do usuário
+:host .start-div input {
+  position: relative;
+  appearance: none;
+  outline: none;
+  background-color: $bg-paper;
+  color: $bg-paper-text;
+  border: 1px solid $border-color;
+  padding: 0.5rem 1rem;
+  border-radius: var(--input-border-radius);
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+  width: 100%;
+  flex-grow: 1;
+  z-index: 2;
+}
+
+:host .start-div .start-input {
+  position: relative;
+  display: flex;
+  z-index: 1;
+}
+
+:host .start-div .start-input::after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--input-border-width));
+  left: calc(-1 * var(--input-border-width));
+  height: calc(100% + var(--input-border-width) * 2);
+  width: calc(100% + var(--input-border-width) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  animation: animated-gradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+  border-radius: var(--input-border-radius);
+  z-index: 0;
+}
+
+:host .start-div .start-input input:hover,
+:host .start-div .start-input input:active {
+  background-color: tint($bg-paper, 5%);
+}
+
+@keyframes animated-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// Botão de começar jornada
+:host .start-div button {
+  margin-left: 1.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--input-border-radius);
+  background-color: $primary;
+  color: $primary-text;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  border: none;
+  height: 100%;
+  cursor: pointer;
+}
+
+:host .start-div button:not(:disabled):hover {
+  background-color: tint($primary, 75%);
+  transform: scale(1.05);
+}
+
+:host .start-div button:not(:disabled):active {
+  background-color: tint($primary, 100%);
+  transform: scale(0.95);
+}
+
+:host .start-div button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }

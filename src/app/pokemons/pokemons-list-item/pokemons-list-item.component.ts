@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { Pokemon } from "../shared/pokemon";
 
 @Component({
   selector: "pokemons-list-item",
@@ -6,5 +7,9 @@ import { Component } from "@angular/core";
   styleUrls: ["./pokemons-list-item.component.scss"]
 })
 export class PokemonsListItemComponent {
-
+  /**
+   * Pokemon a ser exibido.
+   */
+  @Input()
+  pokemon?: Pokemon;
 }
