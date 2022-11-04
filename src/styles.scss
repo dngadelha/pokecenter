@@ -1,5 +1,6 @@
 @import "variables";
 @import "containers";
+@import "scrollbars";
 
 // Estilos principais
 *,
@@ -13,7 +14,6 @@ body,
 app-root {
   width: 100%;
   height: 100%;
-  overflow: hidden;
   margin: 0;
   font-family: $font-family;
 }
