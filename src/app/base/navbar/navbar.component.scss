@@ -1,0 +1,41 @@
+@import "variables";
+
+// Raiz da barra de navegação
+:host {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  top: 0;
+  width: 100%;
+  padding: 1.1rem 1.5rem;
+  background-color: $bg-paper;
+  color: $bg-paper-text;
+}
+
+// Conteúdo da barra de navegação
+:host .container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+// Logo da barra de navegação
+:host .logo {
+  max-height: 1.75rem;
+  margin-right: 0.5rem;
+}
+
+// Links da barra de navegação
+:host a {
+  margin-left: 1.5rem;
+  color: $bg-paper-text;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+:host a:hover {
+  color: $primary;
+}

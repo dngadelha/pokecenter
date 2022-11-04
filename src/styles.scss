@@ -1,5 +1,7 @@
 @import "variables";
+@import "containers";
 
+// Estilos principais
 *,
 *::before,
 *::after {
@@ -16,6 +18,7 @@ app-root {
   font-family: $font-family;
 }
 
+// Estilo do corpo da página
 body {
   background-color: $bg-default;
   color: $bg-default-text;
