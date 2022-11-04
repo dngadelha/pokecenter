@@ -2,15 +2,27 @@
 
 // Raiz da barra de navegação
 :host {
-  position: sticky;
+  position: fixed;
   display: flex;
   flex-direction: row;
   align-items: center;
   top: 0;
   width: 100%;
   padding: 1.1rem 1.5rem;
-  background-color: $bg-paper;
+  background-color: transparent;
   color: $bg-paper-text;
+  box-shadow: none;
+  backdrop-filter: blur(0px);
+  transition: background-color 0.5s ease,
+              box-shadow 0.5s ease,
+              backdrop-filter 0.5s ease;
+  z-index: 1000;
+}
+
+:host(.active) {
+  background-color: rgba($bg-paper, 0.9);
+  box-shadow: $shadow-0;
+  backdrop-filter: blur(10px);
 }
 
 // Conteúdo da barra de navegação
