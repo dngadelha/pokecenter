@@ -1,0 +1,36 @@
+// Campo de busca
+:host .search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem 1.25rem;
+}
+
+// Ícone do campo de busca
+:host .search svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  fill: currentColor;
+}
+
+// Input do campo de busca
+:host .search input {
+  appearance: none;
+  background-color: transparent;
+  outline: 0;
+  color: inherit;
+  border: none;
+  flex-grow: 1;
+  font-size: 1.15rem;
+}
+
+
+
+// Lista de pokémons
+:host .pokemons-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}

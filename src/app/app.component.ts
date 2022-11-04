@@ -1,4 +1,5 @@
-import { Component, HostListener } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
+import * as AOS from "aos";
 
 /**
  * Componente raiz da aplicação.
@@ -8,11 +9,16 @@ import { Component, HostListener } from "@angular/core";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   /**
    * Estado de ativo da barra de navegação.
    */
   navbarActive: boolean = false;
+
+  ngOnInit() {
+    // Inicializar as animações.
+    AOS.init();
+  }
 
   /**
    * Evento chamado ao rolar a página.

@@ -1,0 +1,69 @@
+@import "variables";
+
+// Cabeçalho da página
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: max(60vh, 20rem);
+  margin-bottom: 5rem;
+}
+
+:host .row .col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+:host .row .col:first-child {
+  padding-right: 4rem;
+}
+
+// Título do cabeçalho da página
+:host h1 {
+  margin: 0;
+  font-size: 45px;
+  font-weight: bold;
+}
+
+:host h1 b {
+  color: $primary;
+}
+
+// Subtítulo do cabeçalho da página
+:host p {
+  opacity: 0.9;
+}
+
+// Ilustração do cabeçalho da página
+:host .header-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: drop-shadow(0 0.5rem 2rem rgba(0, 0, 0, 0.25));
+  transform: scale(1.15);
+}
+
+@media (max-width: 767.98px) {
+  :host {
+    margin-top: 3rem;
+  }
+
+  :host h1 {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  :host p {
+    text-align: center;
+  }
+
+  :host .row .col:first-child {
+    padding: 0 3rem;
+  }
+
+  :host .header-img {
+    transform: none;
+    padding: 2rem;
+  }
+}
