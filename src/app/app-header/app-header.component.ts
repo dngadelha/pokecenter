@@ -96,43 +96,42 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   /**
    * Inicia a jornada.
    */
-  async start() {
+  start() {
     // Se já está criando o usuário, não fazer nada.
     if (this.isCreatingUser) return;
 
-    try {
-      // Verificar se especificou o nome do usuário
-      if (this.userNameInput && this.userNameInput.length > 0) {
-        // Definir o valor lógico indicando se está criando o usuário.
-        this.isCreatingUser = true;
+    // Verificar se especificou o nome do usuário
+    if (this.userNameInput && this.userNameInput.length > 0) {
+      // Definir o valor lógico indicando se está criando o usuário.
+      this.isCreatingUser = true;
 
-        // Criar usuário.
-        const response = await this.userService.createUser(this.userNameInput.trim());
+      // Criar usuário.
+      this.userService
+        .createUser(this.userNameInput.trim())
+        .subscribe((response) => {
+          if (response) {
+            // Verificar o status da resposta.
+            switch (response.status) {
+              case "success":
+                // Verificar se retornou o token.
+                if (response.result && response.result.token) {
+                  // Definir o token da sessão do usuário.
+                  this.userService.setUserToken(response.result.token);
 
-        // Verificar o status da resposta.
-        switch (response.status) {
-          case "success":
-            // Verificar se retornou o token.
-            if (response.result && response.result.token) {
-              // Definir o token da sessão do usuário.
-              this.userService.setUserToken(response.result.token);
+                  // Atualizar o valor lógico indicando se deve exibir a seção de iniciar jornada.
+                  this.showStartSection = false;
+                }
 
-              // Atualizar o valor lógico indicando se deve exibir a seção de iniciar jornada.
-              this.showStartSection = false;
+                break;
+              case "empty_name":
+                // Usuário não informou o nome.
+                this.toastrService.error("Por favor, informe seu nome.", "Erro");
+                break;
+              case "":
+                break;
             }
-
-            break;
-          case "empty_name":
-            // Usuário não informou o nome.
-            this.toastrService.error("Por favor, informe seu nome.", "Erro");
-            break;
-          case "":
-            break;
-        }
-      }
-    } catch (e) {
-      // Erro ao enviar requisição.
-      this.userService.handleRequestError(e as Error, this.toastrService);
+          }
+        });
     }
 
     // Redefinir o valor lógico indicando se está criando o usuário.

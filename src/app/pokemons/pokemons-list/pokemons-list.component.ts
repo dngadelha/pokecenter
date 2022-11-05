@@ -134,69 +134,63 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
   /**
    * Atualiza a lista de pókemons.
    */
-  async updatePokemons(forceUpdate: boolean = false) {
+  updatePokemons(forceUpdate: boolean = false) {
     // Verificar se já está carregando a lista de pokémons.
     if (this.isUpdatingPokemons) return;
 
     // Definir que está carregando a lista de pokémons.
     this.isUpdatingPokemons = true;
 
-    try {
-      // Verificar o tipo da lista de pókemons.
-      switch (this.type) {
-        case "all": {
-          // Verificar se ainda não carregou todos os pókemons.
-          if (forceUpdate || this.totalPokemons === -1 || this.pokemons.length < this.totalPokemons) {
-            // Obter a lista de pokémons.
-            const response = await this.pokemonService.getPokemons(
+    // Verificar o tipo da lista de pókemons.
+    switch (this.type) {
+      case "all": {
+        // Verificar se ainda não carregou todos os pókemons.
+        if (forceUpdate || this.totalPokemons === -1 || this.pokemons.length < this.totalPokemons) {
+          // Obter a lista de pokémons.
+          this.pokemonService
+            .getPokemons(
               /* Limite: */ 50,
               /* Offset: */ forceUpdate ? 0 : this.pokemons.length,
               /* Nome: */ this.search
-            );
+            )
+            .subscribe((response) => {
+              // Verificar se obteve a lista de pokémons.
+              if (response && response.status === "success" && response.result && response.result.pokemons) {
+                // Verificar se possui busca.
+                if (forceUpdate || this.search && this.search.trim().length > 0) {
+                  // Atualizar a lista de pokémons.
+                  this.pokemons = response.result.pokemons;
+                } else {
+                  // Adicionar à lista de pokémons.
+                  this.pokemons = this.pokemons.concat(response.result.pokemons);
+                }
 
-            // Verificar se obteve a lista de pokémons.
-            if (response.status === "success" && response.result && response.result.pokemons) {
-              // Verificar se possui busca.
-              if (forceUpdate || this.search && this.search.trim().length > 0) {
-                // Atualizar a lista de pokémons.
-                this.pokemons = response.result.pokemons;
-              } else {
-                // Adicionar à lista de pokémons.
-                this.pokemons = this.pokemons.concat(response.result.pokemons);
+                // Atualizar o total de pokémons.
+                this.totalPokemons = response.result.count;
               }
+            });
+        }
+
+        break;
+      };
+
+      case "captured": {
+        // Obter a lista de pokémons capturados pelo usuário.
+        this.pokemonService
+          .getUserCapturedPokemons()
+          .subscribe((response) => {
+            // Verificar se obteve a lista de pokémons.
+            if (response && response.status === "success" && response.result && response.result.pokemons) {
+              // Atualizar a lista de pokémons.
+              this.pokemons = response.result.pokemons;
 
               // Atualizar o total de pokémons.
               this.totalPokemons = response.result.count;
             }
-          }
+          });
 
-          break;
-        };
-
-        case "captured": {
-          // Verificar se ainda não carregou todos os pókemons.
-          /*if (forceUpdate || this.totalPokemons === -1 || this.pokemons.length < this.totalPokemons) {*/
-
-          // Obter a lista de pokémons capturados pelo usuário.
-          const response = await this.pokemonService.getUserCapturedPokemons(/*50, this.pokemons.length*/);
-
-          // Verificar se obteve a lista de pokémons.
-          if (response.status === "success" && response.result && response.result.pokemons) {
-            // Atualizar a lista de pokémons.
-            this.pokemons = /*[...response.result.pokemons, ...this.pokemons]*/ response.result.pokemons;
-
-            // Atualizar o total de pokémons.
-            this.totalPokemons = response.result.count;
-          }
-
-          /*}*/
-
-          break;
-        };
-      }
-    } catch (e) {
-      // Falha ao obter a lista de pokémons.
-      this.pokemonService.handleRequestError(e as Error, this.toastrService);
+        break;
+      };
     }
 
     // Redefinir que está carregando a lista de pokémons.
@@ -207,7 +201,7 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
    * Tenta capturar um Pokémon.
    * @param name Nome do Pókemon.
    */
-  async tryCapturePokemon(name: string) {
+  tryCapturePokemon(name: string) {
     // Verificar se já está capturando um pokémon.
     if (this.isCapturingPokemon) return;
 
@@ -216,56 +210,55 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
       // Definir que está capturando um pokémon.
       this.isCapturingPokemon = true;
 
-      try {
-        // Tentar capturar o Pokémon.
-        const response = await this.pokemonService.capturePokemon(name);
+      // Tentar capturar o Pokémon.
+      this.pokemonService
+        .capturePokemon(name)
+        .subscribe((response) => {
+          if (response) {
+            // Verificar o status da requisição.
+            switch (response.status) {
+              case "success":
+                // Pokémon capturado com sucesso.
+                const pokemon = response.result?.pokemon;
 
-        // Verificar o status da requisição.
-        switch (response.status) {
-          case "success":
-            // Pokémon capturado com sucesso.
-            const pokemon = response.result?.pokemon;
+                // Exibir mensagem de sucesso.
+                this.toastrService.success(pokemon ?
+                  `Você capturou o Pokémon <i>${pokemon.id.toString().padStart(3, "0")}</i> - <b>${pokemon.name}</b>!` :
+                  `Você capturou o Pokémon!`,
+                  "Parabéns", {
+                    enableHtml: true,
+                  },
+                );
 
-            // Exibir mensagem de sucesso.
-            this.toastrService.success(pokemon ?
-              `Você capturou o Pokémon <i>${pokemon.id.toString().padStart(3, "0")}</i> - <b>${pokemon.name}</b>!` :
-              `Você capturou o Pokémon!`,
-              "Parabéns", {
-                enableHtml: true,
-              },
-            );
+                // Redefinir campo de busca.
+                this.searchHasError = false;
+                this.setSearch("");
 
-            // Redefinir campo de busca.
-            this.searchHasError = false;
-            this.setSearch("");
+                // Redefinir que está carregando a lista de pokémons.
+                this.isUpdatingPokemons = false;
 
-            // Redefinir que está carregando a lista de pokémons.
-            this.isUpdatingPokemons = false;
+                // Atualizar a lista de pokémons.
+                this.updatePokemons(true);
+                break;
+              case "pokemon_not_found":
+                // Pokémon não encontrado!
+                this.searchHasError = true;
+                break;
+              case "pokemon_already_captured":
+                // Exibir mensagem de erro.
+                this.toastrService.warning("Você já capturou esse Pokémon!", "Alerta");
 
-            // Atualizar a lista de pokémons.
-            await this.updatePokemons(true);
-            break;
-          case "pokemon_not_found":
-            // Pokémon não encontrado!
-            this.searchHasError = true;
-            break;
-          case "pokemon_already_captured":
-            // Exibir mensagem de erro.
-            this.toastrService.warning("Você já capturou esse Pokémon!", "Alerta");
-
-            // Redefinir campo de busca.
-            this.searchHasError = false;
-            this.setSearch("");
-            break;
-          default:
-            // Resposta desconhecida!
-            this.searchHasError = true;
-            break;
-        }
-      } catch (e) {
-        // Falha ao capturar o Pokémon.
-        this.pokemonService.handleRequestError(e as Error, this.toastrService);
-      }
+                // Redefinir campo de busca.
+                this.searchHasError = false;
+                this.setSearch("");
+                break;
+              default:
+                // Resposta desconhecida!
+                this.searchHasError = true;
+                break;
+            }
+          }
+        });
 
       // Redefinir que está capturando um pokémon.
       this.isCapturingPokemon = false;

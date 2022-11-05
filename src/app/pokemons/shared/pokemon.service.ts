@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RequestService } from "src/app/shared/request/request.service";
+import { Pokemon } from "./pokemon";
 
 /**
  * Serviço de gerenciamento de pokemons.
@@ -16,7 +17,18 @@ export class PokemonService extends RequestService {
    */
   getPokemons(limit?: number, offset?: number, name?: string) {
     // Obter a lista de pokémons.
-    return this.request({
+    return this.request<{
+      /**
+       * Lista de pokémons.
+       */
+      pokemons: Pokemon[];
+
+      /**
+       * Total de pokémons.
+       */
+      count: number;
+    }>({
+      method: "POST",
       route: "/pokemon/list",
       body: {
         limit,
@@ -33,7 +45,18 @@ export class PokemonService extends RequestService {
    */
   getUserCapturedPokemons(limit?: number, offset?: number) {
     // Obter a lista de pokémons capturados pelo usuário.
-    return this.request({
+    return this.request<{
+      /**
+       * Lista de pokémons.
+       */
+      pokemons: Pokemon[];
+
+      /**
+       * Total de pokémons.
+       */
+      count: number;
+    }>({
+      method: "POST",
       route: "/user/pokemons",
       body: {
         limit,
@@ -48,7 +71,13 @@ export class PokemonService extends RequestService {
    */
   capturePokemon(name: string) {
     // Capturar um Pokémon.
-    return this.request({
+    return this.request<{
+      /**
+       * Informações do Pokémon capturado.
+       */
+      pokemon?: Pokemon;
+    }>({
+      method: "POST",
       route: "/pokemon/capture",
       body: {
         name,

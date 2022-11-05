@@ -1,6 +1,9 @@
-import jwt_decode from "jwt-decode";
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import jwt_decode from "jwt-decode";
+
 import { RequestService } from "../request/request.service";
 import { User } from "./user";
 
@@ -21,8 +24,11 @@ export class UserService extends RequestService {
    */
   userData$: Subject<User | null>;
 
-  constructor() {
-    super();
+  constructor(
+    httpClient: HttpClient,
+    toastService: ToastrService
+  ) {
+    super(httpClient, toastService);
 
     // Inicializar os dados do usuário
     this.userData = this.getUserData();
@@ -88,6 +94,7 @@ export class UserService extends RequestService {
   createUser(name: string) {
     // Criar usuário.
     return this.request({
+      method: "POST",
       route: "/user/create",
       body: {
         name,

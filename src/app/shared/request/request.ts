@@ -5,7 +5,7 @@ export interface IRequest {
   /**
    * Método da requisição.
    */
-  method?: "GET" | "POST" | "PUT" | "DELETE";
+  method: "GET" | "POST" | "PUT" | "DELETE";
 
   /**
    * Rota da API.
@@ -31,19 +31,4 @@ export interface IResponse<TResult = any> {
    * Resultado da requisição.
    */
   result: TResult | null;
-}
-
-/**
- * Erro de requisição.
- */
-export class RequestError extends Error {
-  /**
-   * Código do erro.
-   */
-  public readonly statusCode: number;
-
-  constructor(response: Response, data?: any) {
-    super(`Erro ${response.status} (${response.statusText}) ao realizar a requisição para a rota "${response.url}".`);
-    this.statusCode = response.status;
-  }
 }
