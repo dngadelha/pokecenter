@@ -28,17 +28,19 @@ O Pokecenter é um projeto que utiliza o framework [Angular](https://angular.io/
 - [`@dngadelha/pokecenter-backend`](https://github.com/dngadelha/pokecenter-backend): Projeto que contém o back-end da aplicação.
 
 
-## Executando o código localmente
+## Executando a aplicação localmente
 
 1. Certifique-se de possuir instalado o [Node.js LTS](https://nodejs.org/pt-br/download/)
 
-2. Instale as dependências do projeto
+2. Certifique-se de que o [back-end](https://github.com/dngadelha/pokecenter-backend) do Pokecenter esteja em execução
+
+3. Instale as dependências do projeto
 
 ```sh
 npm install
 ```
 
-3. Inicie o servidor de desenvolvimento:
+4. Inicie o servidor de desenvolvimento:
 
 ```sh
 ng serve
