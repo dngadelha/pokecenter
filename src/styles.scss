@@ -1,4 +1,6 @@
 @import "variables";
+@import "utils";
+
 @import "scrollbars";
 @import "rows";
 @import "containers";
@@ -35,4 +37,12 @@ hr {
   border: none;
   background-color: $border-color;
   margin: 2rem 0;
+}
+
+a {
+  color: $primary;
+}
+
+a:hover {
+  color: tint($primary, 20%);
 }
