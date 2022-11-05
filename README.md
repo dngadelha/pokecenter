@@ -1,4 +1,4 @@
-<a href="https://github.com/dngadelha/pokecenter"><img src="./src/assets/logo-pokecenter.svg" width="123px" alt="Pokecenter" align="right"></a>
+<a href="https://github.com/dngadelha/pokecenter"><img src="./src/assets/logos/pokecenter-logo.svg" width="123px" alt="Pokecenter" align="right"></a>
 
 # Pokecenter
 

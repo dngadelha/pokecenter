@@ -1,5 +1,8 @@
 import { Component } from "@angular/core";
 
+/**
+ * Componente de rodapé.
+ */
 @Component({
   selector: "app-footer",
   templateUrl: "./app-footer.component.html",

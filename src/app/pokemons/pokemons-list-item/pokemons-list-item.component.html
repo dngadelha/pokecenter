@@ -1,5 +1,9 @@
 <card class="pokemon-card">
-  <img [src]="'assets/pokemons/' + pokemonId + '.png'" [alt]="pokemon?.name ?? ''" (dragstart)="$event.preventDefault()" />
+  <img
+    [src]="'assets/pokemons/' + pokemonId + '.png'"
+    [alt]="pokemon?.name ?? ''"
+  />
+
   <p>{{ pokemonId ?? "-" }}</p>
-  <h2>{{ pokemon?.name ?? "-" }}</h2>
+  <h2 [innerHtml]="pokemon ? highlightSearch(pokemon.name) : '-'"></h2>
 </card>

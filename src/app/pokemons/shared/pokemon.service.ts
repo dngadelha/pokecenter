@@ -12,14 +12,16 @@ export class PokemonService extends RequestService {
    * Obtém a lista de pokémons.
    * @param limit Limite de registros.
    * @param offset Índice do primeiro registro.
+   * @param name Nome do pókemon para buscar.
    */
-  getPokemons(limit?: number, offset?: number) {
+  getPokemons(limit?: number, offset?: number, name?: string) {
     // Obter a lista de pokémons.
     return this.request({
       route: "/pokemon/list",
       body: {
         limit,
         offset,
+        name,
       },
     });
   }

@@ -1,7 +1,7 @@
 <app-header [ngClass]="{'active': showAdventure}"></app-header>
 
-<hr data-aos="fade-up" data-aos-delay="0" *ngIf="showAdventure">
-
-<h2 data-aos="fade-up" data-aos-delay="100" *ngIf="showAdventure">Seus Pokémons</h2>
-
-<pokemons-list [type]="'captured'" *ngIf="showAdventure"></pokemons-list>
+<div *ngIf="showAdventure">
+  <hr data-aos="fade-up" data-aos-delay="0">
+  <h2 data-aos="fade-up" data-aos-delay="100">Seus Pokémons</h2>
+  <pokemons-list [type]="'captured'"></pokemons-list>
+</div>

@@ -15,7 +15,10 @@ export class AppComponent implements OnInit {
    */
   navbarActive: boolean = false;
 
-  ngOnInit() {
+  /**
+   * Função chamada ao inicializar o componente.
+   */
+  ngOnInit(): void {
     // Inicializar as animações.
     AOS.init();
   }

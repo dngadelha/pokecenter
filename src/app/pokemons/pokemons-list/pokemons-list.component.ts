@@ -80,8 +80,20 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
     this.searchSubscription$ = merge(
       this.search$.pipe(throttle((val) => debounced)), debounced
     ).subscribe((search) => {
-      // Tentar capturar Pokémon.
-      this.tryCapturePokemon(search);
+      // Verificar o tipo.
+      switch (this.type) {
+        // Caso seja a lista de todos os pokémons.
+        case "all":
+          // Atualizar a lista de pokémons.
+          this.updatePokemons(true);
+          break;
+
+        // Caso seja a lista de pokémons capturados.
+        case "captured":
+          // Tentar capturar Pokémon.
+          this.tryCapturePokemon(search);
+          break;
+      }
     });
   }
 
@@ -136,12 +148,22 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
           // Verificar se ainda não carregou todos os pókemons.
           if (forceUpdate || this.totalPokemons === -1 || this.pokemons.length < this.totalPokemons) {
             // Obter a lista de pokémons.
-            const response = await this.pokemonService.getPokemons(50, this.pokemons.length);
+            const response = await this.pokemonService.getPokemons(
+              /* Limite: */ 50,
+              /* Offset: */ forceUpdate ? 0 : this.pokemons.length,
+              /* Nome: */ this.search
+            );
 
             // Verificar se obteve a lista de pokémons.
             if (response.status === "success" && response.result && response.result.pokemons) {
-              // Atualizar a lista de pokémons.
-              this.pokemons = this.pokemons.concat(response.result.pokemons);
+              // Verificar se possui busca.
+              if (forceUpdate || this.search && this.search.trim().length > 0) {
+                // Atualizar a lista de pokémons.
+                this.pokemons = response.result.pokemons;
+              } else {
+                // Adicionar à lista de pokémons.
+                this.pokemons = this.pokemons.concat(response.result.pokemons);
+              }
 
               // Atualizar o total de pokémons.
               this.totalPokemons = response.result.count;

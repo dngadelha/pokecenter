@@ -4,6 +4,9 @@ import * as AOS from "aos";
 
 import { UserService } from "src/app/shared/user/user.service";
 
+/**
+ * Componente de página inicial.
+ */
 @Component({
   selector: "app-index-page",
   templateUrl: "./index-page.component.html",
@@ -31,7 +34,7 @@ export class IndexPageComponent implements OnInit, OnDestroy {
   /**
    * Função chamada ao inicializar o componente.
    */
-  ngOnInit() {
+  ngOnInit(): void {
     // Atualizar as animações.
     AOS.refresh();
 

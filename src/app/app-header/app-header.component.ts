@@ -56,7 +56,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   /**
    * Função chamada ao inicializar o componente.
    */
-  ngOnInit() {
+  ngOnInit(): void {
     // Atualizar as animações.
     AOS.refresh();
 

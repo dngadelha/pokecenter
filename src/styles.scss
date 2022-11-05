@@ -46,3 +46,7 @@ a {
 a:hover {
   color: tint($primary, 20%);
 }
+
+.highlight {
+  color: $primary !important;
+}
