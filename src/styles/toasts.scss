@@ -1,0 +1,6 @@
+@import "~ngx-toastr/toastr";
+
+// Customizar os toasts
+.ngx-toastr {
+  box-shadow: none !important;
+}

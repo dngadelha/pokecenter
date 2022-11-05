@@ -50,3 +50,8 @@
 :host .pokemons-list .empty-card p {
   opacity: 0.5;
 }
+
+// Card de lista de pokémons
+:host .pokemons-list .col {
+  margin-bottom: 2rem;
+}

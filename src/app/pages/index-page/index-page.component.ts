@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
+import * as AOS from "aos";
+
 import { UserService } from "src/app/shared/user/user.service";
 
 @Component({
@@ -14,28 +16,31 @@ export class IndexPageComponent implements OnInit, OnDestroy {
   showAdventure: boolean = false;
 
   /**
-   * @Subscription de nome do usuário.
+   * @Subscription de dados do usuário.
    */
-  userNameSubscription: Subscription | null = null;
+  userDataSubscription: Subscription | null = null;
 
   constructor(private userService: UserService) {
+    // Obter os dados do usuário.
+    const userData = this.userService.userData;
+
     // Atualizar o valor lógico indicando se deve exibir a seção de jornada.
-    this.showAdventure = (
-      this.userService.getUserName() !== null &&
-      this.userService.getUserName()!.length > 0
-    );
+    this.showAdventure = Boolean(userData && userData.name.length > 0);
   }
 
   /**
    * Função chamada ao inicializar o componente.
    */
   ngOnInit() {
-    // Criar o @Subscription de nome do usuário.
-    this.userNameSubscription = this.userService.userName.subscribe((userName) => {
+    // Atualizar as animações.
+    AOS.refresh();
+
+    // Criar o @Subscription de dados do usuário.
+    this.userDataSubscription = this.userService.userData$.subscribe((userData) => {
       // Atualizar o valor lógico indicando se deve exibir a seção de jornada.
       this.showAdventure = (
-        userName !== null &&
-        userName.length > 0
+        userData !== null &&
+        userData.name.length > 0
       );
     });
   }
@@ -44,6 +49,6 @@ export class IndexPageComponent implements OnInit, OnDestroy {
    * Função chamada ao destruir o componente.
    */
   ngOnDestroy(): void {
-    this.userNameSubscription?.unsubscribe();
+    this.userDataSubscription?.unsubscribe();
   }
 }

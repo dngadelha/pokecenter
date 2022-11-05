@@ -1,3 +1,5 @@
-<card>
-
+<card class="pokemon-card">
+  <img [src]="'assets/pokemons/' + pokemonId + '.png'" [alt]="pokemon?.name ?? ''" (dragstart)="$event.preventDefault()" />
+  <p>{{ pokemonId ?? "-" }}</p>
+  <h2>{{ pokemon?.name ?? "-" }}</h2>
 </card>

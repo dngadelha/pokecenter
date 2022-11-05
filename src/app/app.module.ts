@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
+import { ToastrModule } from "ngx-toastr";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -9,9 +11,9 @@ import { AppNavbarComponent } from "./app-navbar/app-navbar.component";
 import { CardComponent } from "./shared/card/card.component";
 import { PokemonsListComponent } from "./pokemons/pokemons-list/pokemons-list.component";
 import { PokemonsListItemComponent } from "./pokemons/pokemons-list-item/pokemons-list-item.component";
-import { IndexPageComponent } from './pages/index-page/index-page.component';
-import { PokedexPageComponent } from './pages/pokedex-page/pokedex-page.component';
-import { AppFooterComponent } from './app-footer/app-footer.component';
+import { IndexPageComponent } from "./pages/index-page/index-page.component";
+import { PokedexPageComponent } from "./pages/pokedex-page/pokedex-page.component";
+import { AppFooterComponent } from "./app-footer/app-footer.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

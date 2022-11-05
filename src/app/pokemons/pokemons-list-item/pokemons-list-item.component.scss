@@ -1,0 +1,29 @@
+// Card do pókemon
+:host .pokemon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+// Imagem do pókemon
+:host .pokemon-card img {
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+}
+
+// ID do pókemon
+:host .pokemon-card p {
+  font-size: 0.9rem;
+  margin: 1rem 0 0.5rem 0;
+  opacity: 0.5;
+}
+
+// Nome do pókemon
+:host .pokemon-card h2 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+}

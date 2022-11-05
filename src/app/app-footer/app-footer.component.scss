@@ -11,6 +11,8 @@
   justify-content: center;
   width: 100%;
   padding: 1.1rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.075);
+  border-top: 1px solid $border-color;
 }
 
 :host a {

@@ -1,5 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { Subscription } from "rxjs";
 import * as AOS from "aos";
+
 import { UserService } from "../shared/user/user.service";
 
 /**
@@ -10,7 +13,7 @@ import { UserService } from "../shared/user/user.service";
   templateUrl: "./app-header.component.html",
   styleUrls: ["./app-header.component.scss"]
 })
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent implements OnInit, OnDestroy {
   /**
    * Valor lógico indicando se deve exibir a seção de iniciar jornada.
    */
@@ -26,9 +29,22 @@ export class AppHeaderComponent implements OnInit {
    */
   userNameInput: string = "";
 
-  constructor(private userService: UserService) {
+  /**
+   * @Subscription de dados do usuário.
+   */
+  userDataSubscription: Subscription | null = null;
+
+  /**
+   * Valor lógico indicando se está criando o usuário.
+   */
+  isCreatingUser: boolean = false;
+
+  constructor(
+    private toastrService: ToastrService,
+    private userService: UserService
+  ) {
     // Inicializar o nome do usuário.
-    this.userName = this.userService.getUserName();
+    this.userName = this.userService.userData?.name ?? null;
 
     // Inicializar o valor lógico indicando se deve exibir a seção de iniciar jornada.
     this.showStartSection = (
@@ -43,6 +59,19 @@ export class AppHeaderComponent implements OnInit {
   ngOnInit() {
     // Atualizar as animações.
     AOS.refresh();
+
+    // Criar o @Subscription de dados do usuário.
+    this.userDataSubscription = this.userService.userData$.subscribe((userData) => {
+      // Atualizar nome do usuário.
+      this.userName = userData ? userData.name : null;
+    });
+  }
+
+  /**
+   * Função chamada ao destruir o componente.
+   */
+  ngOnDestroy(): void {
+    this.userDataSubscription?.unsubscribe();
   }
 
   /**
@@ -67,15 +96,46 @@ export class AppHeaderComponent implements OnInit {
   /**
    * Inicia a jornada.
    */
-  start() {
-    // Verificar se especificou o nome do usuário
-    if (this.userNameInput && this.userNameInput.length > 0) {
-      // Definir o nome do usuário.
-      this.userService.setUserName(this.userNameInput);
-      this.userName = this.userNameInput;
+  async start() {
+    // Se já está criando o usuário, não fazer nada.
+    if (this.isCreatingUser) return;
 
-      // Atualizar o valor lógico indicando se deve exibir a seção de iniciar jornada.
-      this.showStartSection = false;
+    try {
+      // Verificar se especificou o nome do usuário
+      if (this.userNameInput && this.userNameInput.length > 0) {
+        // Definir o valor lógico indicando se está criando o usuário.
+        this.isCreatingUser = true;
+
+        // Criar usuário.
+        const response = await this.userService.createUser(this.userNameInput.trim());
+
+        // Verificar o status da resposta.
+        switch (response.status) {
+          case "success":
+            // Verificar se retornou o token.
+            if (response.result && response.result.token) {
+              // Definir o token da sessão do usuário.
+              this.userService.setUserToken(response.result.token);
+
+              // Atualizar o valor lógico indicando se deve exibir a seção de iniciar jornada.
+              this.showStartSection = false;
+            }
+
+            break;
+          case "empty_name":
+            // Usuário não informou o nome.
+            this.toastrService.error("Por favor, informe seu nome.", "Erro");
+            break;
+          case "":
+            break;
+        }
+      }
+    } catch (e) {
+      // Erro ao enviar requisição.
+      this.userService.showRequestError(e as Error, this.toastrService);
     }
+
+    // Redefinir o valor lógico indicando se está criando o usuário.
+    this.isCreatingUser = false;
   }
 }

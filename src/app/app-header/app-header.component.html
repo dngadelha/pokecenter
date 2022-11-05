@@ -5,9 +5,9 @@
     <p data-aos="fade-up" data-aos-delay="100" *ngIf="showStartSection">Informe seu nome abaixo para começar sua jornada!</p>
     <div class="start-div" data-aos="fade-up" data-aos-delay="200" *ngIf="showStartSection">
       <div class="start-input">
-        <input type="text" placeholder="Digite seu nome aqui..." [(ngModel)]="userNameInput" (ngModelChange)="setUserNameInput($event)" (keydown)="onUserNameInputKeyDown($event)" />
+        <input type="text" placeholder="Digite seu nome aqui..." [disabled]="isCreatingUser" [(ngModel)]="userNameInput" (ngModelChange)="setUserNameInput($event)" (keydown)="onUserNameInputKeyDown($event)" />
       </div>
-      <button type="button" (click)="start()" [disabled]="userNameInput.trim().length === 0">Começar</button>
+      <button type="button" (click)="start()" [disabled]="isCreatingUser || userNameInput.trim().length === 0">Começar</button>
     </div>
   </div>
   <div class="col col-12 col-md-6" data-aos="fade-up" data-aos-delay="200">
