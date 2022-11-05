@@ -7,6 +7,11 @@
   align-items: center;
   padding: 1rem 1.25rem;
   margin-bottom: 2rem;
+  color: $bg-paper-text;
+}
+
+:host .search.error {
+  outline: 1px solid $error;
 }
 
 // Ícone do campo de busca
@@ -28,6 +33,12 @@
   font-size: 1.15rem;
 }
 
+// Spinner do campo de busca.
+:host .search .spinner-border {
+  --bs-spinner-width: 1rem;
+  --bs-spinner-height: 1rem;
+}
+
 
 
 // Lista de pokémons
@@ -35,7 +46,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 // Card de lista de pokémons vazia

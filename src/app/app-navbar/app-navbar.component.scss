@@ -51,3 +51,19 @@
 :host a:hover {
   color: $primary;
 }
+
+// Ícones da barra de navegação
+:host a svg {
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+}
+
+// Parte direita da barra de navegação
+:host .nav-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+}

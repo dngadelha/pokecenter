@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Pokemon } from "../shared/pokemon";
 
+/**
+ * Componente de item de lista de pokémons.
+ */
 @Component({
   selector: "pokemons-list-item",
   templateUrl: "./pokemons-list-item.component.html",

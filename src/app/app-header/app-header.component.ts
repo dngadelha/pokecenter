@@ -132,7 +132,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
       }
     } catch (e) {
       // Erro ao enviar requisição.
-      this.userService.showRequestError(e as Error, this.toastrService);
+      this.userService.handleRequestError(e as Error, this.toastrService);
     }
 
     // Redefinir o valor lógico indicando se está criando o usuário.

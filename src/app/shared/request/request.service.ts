@@ -61,7 +61,7 @@ export abstract class RequestService {
    * @param error Erro.
    * @param toastrService Serviço de notificações.
    */
-  public showRequestError(error: Error, toastrService: ToastrService) {
+  public handleRequestError(error: Error, toastrService: ToastrService) {
     // Verificar se é uma instância de @RequestError.
     if (error instanceof RequestError) {
       switch (error.statusCode) {
@@ -69,6 +69,10 @@ export abstract class RequestService {
           toastrService.error("Erro interno no servidor!", "Erro");
           return;
         case 401: // 401 Unauthorized
+          // Remover token.
+          localStorage.removeItem("token");
+
+          // Exibir mensagem de erro.
           toastrService.error("Você ainda não iniciou sua jornada!", "Erro");
           return;
       }
