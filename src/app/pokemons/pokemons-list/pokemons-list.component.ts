@@ -272,9 +272,12 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
               case "pokemon_not_found":
                 // Pokémon não encontrado!
                 this.searchHasError = true;
+
+                // Exibir alerta.
+                this.toastrService.warning("Esse Pokémon não foi encontrado!", "Alerta");
                 break;
               case "pokemon_already_captured":
-                // Exibir mensagem de erro.
+                // Exibir alerta.
                 this.toastrService.warning("Você já capturou esse Pokémon!", "Alerta");
 
                 // Redefinir campo de busca.
