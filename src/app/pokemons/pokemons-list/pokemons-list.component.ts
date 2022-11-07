@@ -183,7 +183,13 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
                 // Atualizar o total de pokémons.
                 this.totalPokemons = response.result.count;
               }
+
+              // Redefinir que está carregando a lista de pokémons.
+              this.isUpdatingPokemons = false;
             });
+        } else {
+          // Redefinir que está carregando a lista de pokémons.
+          this.isUpdatingPokemons = false;
         }
 
         break;
@@ -202,14 +208,20 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
               // Atualizar o total de pokémons.
               this.totalPokemons = response.result.count;
             }
+
+            // Redefinir que está carregando a lista de pokémons.
+            this.isUpdatingPokemons = false;
           });
 
         break;
       };
-    }
 
-    // Redefinir que está carregando a lista de pokémons.
-    this.isUpdatingPokemons = false;
+      default: {
+        // Redefinir que está carregando a lista de pokémons.
+        this.isUpdatingPokemons = false;
+        break;
+      }
+    }
   }
 
   /**
