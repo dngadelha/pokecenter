@@ -10,9 +10,16 @@
       [placeholder]="type === 'captured' ? 'Digite o nome do pokémon para capturá-lo...' : 'Digite o nome do pokémon para pesquisá-lo...'"
       [(ngModel)]="search"
       (ngModelChange)="setSearch($event)"
+      (keydown)="onSearchInputKeyDown($event)"
     />
 
-    <div class="spinner-border" *ngIf="isCapturingPokemon"></div>
+    <button
+      type="button"
+      class="capture-button"
+      *ngIf="type === 'captured'"
+      [disabled]="isCapturingPokemon || !search || search.trim().length === 0"
+      (click)="tryCapturePokemon()"
+    >Capturar</button>
   </card>
 
   <div class="pokemons-list row" #pokemonsList>

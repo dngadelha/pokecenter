@@ -170,6 +170,7 @@
 }
 
 :host .start-div button:disabled {
-  opacity: 0.5;
+  background-color: rgba($primary, 0.5);
+  color: rgba($primary-text, 0.75);
   cursor: default;
 }

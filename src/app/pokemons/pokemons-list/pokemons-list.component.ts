@@ -76,7 +76,7 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
     this.updatePokemons(true);
 
     // Inscrever no @Subject do campo de busca com debounce.
-    const debounced = this.search$.pipe(debounceTime(250), share());
+    const debounced = this.search$.pipe(debounceTime(200), share());
     this.searchSubscription$ = merge(
       this.search$.pipe(throttle((val) => debounced)), debounced
     ).subscribe((search) => {
@@ -91,7 +91,7 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
         // Caso seja a lista de pokémons capturados.
         case "captured":
           // Tentar capturar Pokémon.
-          this.tryCapturePokemon(search);
+          // this.tryCapturePokemon(search);
           break;
       }
     });
@@ -111,6 +111,21 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
   setSearch(search: string) {
     this.search = search;
     this.search$.next(search);
+
+    if (search.length === 0) {
+      this.searchHasError = false;
+    }
+  }
+
+  /**
+   * Função chamada ao pressionar tecla no campo de busca.
+   * @param event Evento do teclado.
+   */
+  onSearchInputKeyDown(event: KeyboardEvent) {
+    if (event.key === "Enter") {
+      // Tentar capturar pokémon.
+      this.tryCapturePokemon();
+    }
   }
 
   /**
@@ -119,7 +134,7 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
    */
   @HostListener("window:scroll")
   onWindowScroll() {
-    if (this.pokemonsList && !this.isUpdatingPokemons && this.type === "all") {
+    if (this.pokemonsList && !this.isUpdatingPokemons && this.type === "all" && this.pokemons.length > 0) {
       // Obter a posição do elemento da lista de pokémons.
       const elementPosition = this.pokemonsList.nativeElement.getBoundingClientRect().top;
 
@@ -201,9 +216,12 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
    * Tenta capturar um Pokémon.
    * @param name Nome do Pókemon.
    */
-  tryCapturePokemon(name: string) {
+  tryCapturePokemon(name?: string) {
     // Verificar se já está capturando um pokémon.
     if (this.isCapturingPokemon) return;
+
+    // Verificar se o nome não foi especificado.
+    if (!name) name = this.search.trim();
 
     // Verificar se o nome do Pókemon foi especificado.
     if (name && name.trim().length > 0) {
@@ -231,7 +249,6 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
                 );
 
                 // Redefinir campo de busca.
-                this.searchHasError = false;
                 this.setSearch("");
 
                 // Redefinir que está carregando a lista de pokémons.
@@ -249,7 +266,6 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
                 this.toastrService.warning("Você já capturou esse Pokémon!", "Alerta");
 
                 // Redefinir campo de busca.
-                this.searchHasError = false;
                 this.setSearch("");
                 break;
               default:
@@ -258,10 +274,10 @@ export class PokemonsListComponent implements OnInit, OnDestroy {
                 break;
             }
           }
-        });
 
-      // Redefinir que está capturando um pokémon.
-      this.isCapturingPokemon = false;
+          // Redefinir que está capturando um pokémon.
+          this.isCapturingPokemon = false;
+        });
     } else {
       // Redefinir estado de erro do campo de busca.
       this.searchHasError = false;

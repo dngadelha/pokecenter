@@ -1,13 +1,15 @@
 @import "variables";
+@import "utils";
 
 // Campo de busca
 :host .search {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 1rem 1.25rem;
   margin-bottom: 2rem;
   color: $bg-paper-text;
+  padding: 0;
+  overflow: hidden;
 }
 
 :host .search.error {
@@ -15,18 +17,19 @@
 }
 
 // Ícone do campo de busca
+:host .search svg-icon {
+  margin-left: 1.25rem;
+  fill: currentColor;
+}
+
 :host .search svg-icon.search-icon {
   width: 1.5rem;
   height: 1.5rem;
-  margin-right: 0.5rem;
-  fill: currentColor;
 }
 
 :host .search svg-icon.pokeball-icon {
   width: 1.25rem;
   height: 1.25rem;
-  margin-right: 0.75rem;
-  fill: currentColor;
 }
 
 // Input do campo de busca
@@ -38,12 +41,67 @@
   border: none;
   flex-grow: 1;
   font-size: 1.15rem;
+  padding: 1rem 1.25rem;
 }
 
 // Spinner do campo de busca.
 :host .search .spinner-border {
   --bs-spinner-width: 1rem;
   --bs-spinner-height: 1rem;
+}
+
+// Botão de capturar
+:host .capture-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  appearance: none;
+  background-color: $primary;
+  border: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 20px;
+  height: 3.4rem;
+  padding: 0 1.25rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+:host .capture-button:not(:disabled):hover {
+  background-color: tint($primary, 75%);
+}
+
+:host .capture-button:not(:disabled):active {
+  background-color: tint($primary, 100%);
+}
+
+:host .capture-button:disabled {
+  background-color: rgba($primary, 0.5);
+  color: rgba($primary-text, 0.75);
+  cursor: default;
+}
+
+// Botão de capturar com erro
+:host .error .capture-button {
+  background-color: $error;
+}
+
+:host .error .capture-button:not(:disabled):hover {
+  background-color: tint($error, 75%);
+}
+
+:host .error .capture-button:not(:disabled):active {
+  background-color: tint($error, 100%);
+}
+
+:host .error .capture-button:disabled {
+  background-color: rgba($error, 0.5);
+  color: rgba($error-text, 0.75);
+  cursor: default;
 }
 
 

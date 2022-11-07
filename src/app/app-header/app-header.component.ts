@@ -131,10 +131,10 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
                 break;
             }
           }
+
+          // Redefinir o valor lógico indicando se está criando o usuário.
+          this.isCreatingUser = false;
         });
     }
-
-    // Redefinir o valor lógico indicando se está criando o usuário.
-    this.isCreatingUser = false;
   }
 }
